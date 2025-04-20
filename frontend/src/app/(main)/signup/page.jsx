@@ -1,6 +1,46 @@
-import React from 'react'
+'use client';
+
+import React from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+
+const SignupSchema = Yup.object().shape({
+  name: Yup.string().min(2, 'Too Short..!').max(50, 'Too long!').required('Required'),
+  email: Yup.string().email('Invalid email').required('Required'),
+  password: Yup.string().min(7, 'password is too short').required('Required'),
+  confirmPassword: Yup.string().required('Required').oneOf([Yup.ref('password'), null], 'password must match'),
+});
 
 const Signup = () => {
+  const router = useRouter();
+
+  const signupForm = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    },
+    onSubmit: (values, { resetForm }) => {
+      axios.post('http://localhost:5000/user/add', values)
+      .then((result) => {
+        toast.success('User Created Successfully');
+        resetForm({values: '' });
+        router.push('/login');
+
+        
+      }).catch((err) => {
+        console.log(err);
+        toast.error('Something went wrong');
+        
+      });
+    },
+    validationSchema: SignupSchema,
+  })
+
   return (
     <div className='flex justify-center items-center min-h-screen py-16 bg-gray-100 dark:bg-neutral-800' >
       <div className="w-full max-w-md p-6 bg-white border border-gray-200 rounded-xl shadow-2xs dark:bg-neutral-900 dark:border-neutral-700">
@@ -16,6 +56,7 @@ const Signup = () => {
                 href="/login"
               >
                 Sign in here
+
               </a>
             </p>
           </div>
@@ -54,8 +95,51 @@ const Signup = () => {
               Or
             </div>
             {/* Form */}
-            <form>
+            <form onSubmit={signupForm.handleSubmit} >
               <div className="grid gap-y-4">
+                {/* Form Group */}
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="block text-sm mb-2 dark:text-white"
+                  >
+                    Name
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="name"
+                      id="name"
+                      name="name"
+                      onChange={signupForm.handleChange}
+                      value={signupForm.values.name}
+                      className="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                      required=""
+                      aria-describedby="name-error"
+                    />
+                    <div className="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
+                      <svg
+                        className="size-5 text-red-500"
+                        width={16}
+                        height={16}
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                        aria-hidden="true"
+                      >
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                      </svg>
+                    </div>
+                  </div>
+                  {
+
+                    (signupForm.errors.name && signupForm.touched.name) ? (
+                      <p className=" text-xs text-red-600 mt-2" id="email-error">
+                        {signupForm.errors.name}
+                      </p>
+                    ) : null
+                  }
+
+                </div>
+                {/* End Form Group */}
                 {/* Form Group */}
                 <div>
                   <label
@@ -69,6 +153,8 @@ const Signup = () => {
                       type="email"
                       id="email"
                       name="email"
+                      onChange={signupForm.handleChange}
+                      value={signupForm.values.email}
                       className="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                       required=""
                       aria-describedby="email-error"
@@ -86,9 +172,14 @@ const Signup = () => {
                       </svg>
                     </div>
                   </div>
-                  <p className="hidden text-xs text-red-600 mt-2" id="email-error">
-                    Please include a valid email address so we can get back to you
-                  </p>
+                  {
+
+                    (signupForm.errors.email && signupForm.touched.name) ? (
+                      <p className=" text-xs text-red-600 mt-2" id="email-error">
+                        {signupForm.errors.email}
+                      </p>
+                    ) : null
+                  }
                 </div>
                 {/* End Form Group */}
                 {/* Form Group */}
@@ -104,6 +195,8 @@ const Signup = () => {
                       type="password"
                       id="password"
                       name="password"
+                      onChange={signupForm.handleChange}
+                      value={signupForm.values.password}
                       className="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                       required=""
                       aria-describedby="password-error"
@@ -121,12 +214,16 @@ const Signup = () => {
                       </svg>
                     </div>
                   </div>
-                  <p
-                    className="hidden text-xs text-red-600 mt-2"
-                    id="password-error"
-                  >
-                    8+ characters required
-                  </p>
+                  {
+
+                    (signupForm.errors.password && signupForm.touched.name) ? (
+                      <p className=" text-xs text-red-600 mt-2" id="email-error">
+                        {signupForm.errors.password}
+                      </p>
+                    ) : null
+                  }
+              
+
                 </div>
                 {/* End Form Group */}
                 {/* Form Group */}
@@ -140,11 +237,13 @@ const Signup = () => {
                   <div className="relative">
                     <input
                       type="password"
-                      id="confirm-password"
-                      name="confirm-password"
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      onChange={signupForm.handleChange}
+                      value={signupForm.values.confirmPassword}
                       className="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                       required=""
-                      aria-describedby="confirm-password-error"
+                      aria-describedby="confirmPassword-error"
                     />
                     <div className="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
                       <svg
@@ -159,12 +258,13 @@ const Signup = () => {
                       </svg>
                     </div>
                   </div>
-                  <p
-                    className="hidden text-xs text-red-600 mt-2"
-                    id="confirm-password-error"
-                  >
-                    Password does not match the password
-                  </p>
+                  {
+                    (signupForm.errors.confirmPassword && signupForm.touched.confirmPassword) ? (
+                      <p className=" text-xs text-red-600 mt-2" id="email-error">
+                        {signupForm.errors.confirmPassword}
+                      </p>
+                    ) : null
+                  }
                 </div>
                 {/* End Form Group */}
                 {/* Checkbox */}
@@ -204,8 +304,8 @@ const Signup = () => {
             {/* End Form */}
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }
 

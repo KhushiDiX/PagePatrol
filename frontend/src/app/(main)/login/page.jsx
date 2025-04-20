@@ -1,6 +1,26 @@
+'use client';
+import { useFormik } from 'formik';
 import React from 'react'
+import * as Yup from 'yup';
+
+const loginSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required('Required'),
+  password: Yup.string().min(7, 'Password is too short').required('Required'),
+});
 
 const Login = () => {
+
+  const loginForm = useFormik({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    onSubmit: (values, { resetForm }) => {
+      console.log(values);
+      resetForm();
+    },
+    validationSchema: loginSchema,
+  })
   return (
     <div className='flex justify-center items-center min-h-screen bg-gray-200 dark:bg-neutral-800'>
       <div className="w-full max-w-md p-6 bg-white border border-gray-200 rounded-xl shadow-2xs dark:bg-neutral-900 dark:border-neutral-700">
@@ -54,7 +74,7 @@ const Login = () => {
               Or
             </div>
             {/* Form */}
-            <form>
+            <form onSubmit={loginForm.handleSubmit} >
               <div className="grid gap-y-4">
                 {/* Form Group */}
                 <div>
@@ -69,6 +89,8 @@ const Login = () => {
                       type="email"
                       id="email"
                       name="email"
+                      onChange={loginForm.handleChange}
+                      value={loginForm.values.email}
                       className="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                       required=""
                       aria-describedby="email-error"
@@ -86,9 +108,14 @@ const Login = () => {
                       </svg>
                     </div>
                   </div>
-                  <p className="hidden text-xs text-red-600 mt-2" id="email-error">
-                    Please include a valid email address so we can get back to you
-                  </p>
+                  {
+
+                    (loginForm.errors.email && loginForm.touched.email) ? (
+                      <p className=" text-xs text-red-600 mt-2" id="email-error">
+                        {loginForm.errors.email}
+                      </p>
+                    ) : null
+                  }
                 </div>
                 {/* End Form Group */}
                 {/* Form Group */}
@@ -112,6 +139,8 @@ const Login = () => {
                       type="password"
                       id="password"
                       name="password"
+                      onChange={loginForm.handleChange}
+                      value={loginForm.values.password}
                       className="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                       required=""
                       aria-describedby="password-error"
@@ -129,12 +158,14 @@ const Login = () => {
                       </svg>
                     </div>
                   </div>
-                  <p
-                    className="hidden text-xs text-red-600 mt-2"
-                    id="password-error"
-                  >
-                    8+ characters required
-                  </p>
+                  {
+
+                    (loginForm.errors.password && loginForm.touched.password) ? (
+                      <p className=" text-xs text-red-600 mt-2" id="password-error">
+                        {loginForm.errors.password}
+                      </p>
+                    ) : null
+                  }
                 </div>
                 {/* End Form Group */}
                 {/* Checkbox */}
