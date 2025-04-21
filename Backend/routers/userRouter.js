@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/add', (req, res) => {
     console.log(req.body);
-    new model(req.body).save()
+    new Model(req.body).save()
         .then((result) => {
             res.status(200).json(result);
         }).catch((err) => {
@@ -22,7 +22,7 @@ router.post('/add', (req, res) => {
 })
 
 router.get('/getall', (req, res) => {
-    model.find()
+    Model.find()
     .then((result) => {
         res.status(200).json(result);
     }).catch((err) => {
