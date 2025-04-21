@@ -1,6 +1,9 @@
 'use client';
+import axios from 'axios';
 import { useFormik } from 'formik';
+import { useRouter } from 'next/navigation';
 import React from 'react'
+import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 
 const loginSchema = Yup.object().shape({
@@ -9,6 +12,7 @@ const loginSchema = Yup.object().shape({
 });
 
 const Login = () => {
+  const router = useRouter();
 
   const loginForm = useFormik({
     initialValues: {
@@ -16,8 +20,18 @@ const Login = () => {
       password: ''
     },
     onSubmit: (values, { resetForm }) => {
-      console.log(values);
-      resetForm();
+       axios.post('http://localhost:5000/user/add', values)
+            .then((result) => {
+              toast.success('User Created Successfully');
+              resetForm({values: '' });
+              router.push('/login');
+      
+              
+            }).catch((err) => {
+              console.log(err);
+              toast.error('Something went wrong');
+              
+            });
     },
     validationSchema: loginSchema,
   })
