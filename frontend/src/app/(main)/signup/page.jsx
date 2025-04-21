@@ -30,8 +30,6 @@ const Signup = () => {
         toast.success('User Created Successfully');
         resetForm({values: '' });
         router.push('/login');
-
-        
       }).catch((err) => {
         console.log(err);
         toast.error('Something went wrong');
