@@ -1,13 +1,18 @@
-const {Schema, model} = require('../connection');
+const { Schema, model } = require('../connection');
 
 const userSchema = new Schema({
     name: String,
-    email: {type: String, required: true, unique: true},
-    password: {type: String, required: true},
-    city:{type: String, default:'No city'},
-    createdAt: {type: Date, default: Date.now()},
-
+    email: { type: String, },
+    password: { type: String, },
+    role: {
+        type: String,
+        enum: ['admin, user']
+    },
+    scan: {
+        type: Schema.Types.ObjectId,
+        ref: 'scan'
+    }
 });
 
 
-module.exports = model('users', userSchema);
+module.exports = model('user', userSchema);
