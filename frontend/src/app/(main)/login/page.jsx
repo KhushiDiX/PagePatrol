@@ -20,16 +20,18 @@ const Login = () => {
       password: ''
     },
     onSubmit: (values, { resetForm }) => {
-      axios.post('http://localhost:5000/user/add', values)
-      .then((result) => {
-        toast.success('User Created Successfully');
-        resetForm({values: '' });
-        router.push('/signup');
-      }).catch((err) => {
-        console.log(err);
-        toast.error('Something went wrong');
-        
-      });
+       axios.post('http://localhost:5000/user/add', values)
+            .then((result) => {
+              toast.success('User Created Successfully');
+              resetForm({values: '' });
+              router.push('/login');
+      
+              
+            }).catch((err) => {
+              console.log(err);
+              toast.error('Something went wrong');
+              
+            });
     },
     validationSchema: loginSchema,
   })
