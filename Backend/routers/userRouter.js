@@ -1,11 +1,12 @@
 const express = require('express');
 const Model = require('../models/userModel'); // Importing the user model
+const jwt = require('jsonwebtoken');//importing jsonwebtoken
+require('dotenv').config();//importing dotenv
 
 const router = express.Router();
 
 router.post('/add', (req, res) => {
     console.log(req.body);
-    new Model(req.body).save()
     new Model(req.body).save()
         .then((result) => {
             res.status(200).json(result);
@@ -63,7 +64,38 @@ router.put('/update/:id', (req, res) => {
             console.log(err);
 
         });
-        
+});
+
+router.post('/authenticate', (req, res) => {
+    Model.findOne(req.body)
+        .then((result) => {
+            if (result) {
+                //email and password are correct
+                //generate token
+                const { email, password, _id } = result;
+                const payload = { _id, email, password };
+
+                jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
+                    if (err) {
+                        console.log(err);
+                        res.status(500).json(err);
+
+                    } else {
+                        res.status(200).json({ token });
+                    }
+                })
+            }
+            else {
+                //email and password are incorrect
+                res.status(401).json({ message: 'Invalid Email or Password' });
+            }
+
+        }).catch((err) => {
+            console.log(err);
+            res.status(500).json({ message: 'Internal Server Error' });
+
+        });
+
 
 })
 module.exports = router;

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ContactUs = require('../models/contactUsModel');
+const Model = require('../models/contactModel');
 
 
 router.post('/add', (req, res) => {
@@ -9,16 +9,21 @@ router.post('/add', (req, res) => {
         .then((result) => {
             res.status(200).json(result);
         }).catch((err) => {
-            console.log(err);
-            if (err.code === 11000) {
-                res.status(400).json({ message: 'User Email already exists' });
-            }
-            else {
-                res.status(500).json({ message: 'Internal server error' });
-            }
+            res.status(500).json({ message: 'Internal server error' });
 
         });
-    })
+})
+
+router.get('/getall', (req, res) => {
+    Model.find()
+        .then((result) => {
+            res.status(200).json(result);
+        }).catch((err) => {
+            res.status(500).json({ message: 'Internal server error' });
+            console.log(err);
+        });
+})
+
 
 router.get('/getbyid/:id', (req, res) => {
     Model.findById(req.params.id)

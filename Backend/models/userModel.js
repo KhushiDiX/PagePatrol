@@ -10,7 +10,7 @@ const userSchema = new Schema({
     },
     scan: {
         type: Schema.Types.ObjectId,
-        ref: 'scan'
+        ref: 'Scan'
     }
 });
 

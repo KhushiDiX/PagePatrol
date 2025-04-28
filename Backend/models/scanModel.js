@@ -17,7 +17,7 @@ const scanSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'BrokenLink'
     },
-    orphanedPage: [string] //array of URLs
+    orphanedPage: [String] //array of URLs
 });
 
 module.exports = model('Scans', scanSchema);

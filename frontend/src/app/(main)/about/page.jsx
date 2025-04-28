@@ -4,7 +4,7 @@ const About = () => {
   return (
     <article className="py-10">
       <h1 className="text-center py-5 font-bold text-5xl">About Us</h1>
-      <section className="bg-gray-50 min-h-scre flex items-center flex w-full justify-center  items-center">
+      <section className="bg-gray-50 min-h-scre flex.items-center flex w-full justify-center  items-center">
         <div className="max-w-[1320px] md:py-[80] py-5 flex flex-col sm:flex-row mx-auto">
           <div className="basis-[45%] my-auto">
             <img src="About-Us.webp" className="w-full" alt="g" />

@@ -1,6 +1,7 @@
 const express = require('express');
+const Model = require('../models/feedbackmodel');
+
 const router = express.Router();
-const Feedback = require('../models/feedbackmodel');
 
 router.post('/add', (req, res) => {
     console.log(req.body);
@@ -9,15 +10,18 @@ router.post('/add', (req, res) => {
             res.status(200).json(result);
         }).catch((err) => {
             console.log(err);
-            if (err.code === 11000) {
-                res.status(400).json({ message: 'User Email already exists' });
-            }
-            else {
-                res.status(500).json({ message: 'Internal server error' });
-            }
+            res.status(500).json({ message: 'Internal server error' });
         });
 });
-
+router.get('/getall', (req, res) => {
+    Model.find()
+        .then((result) => {
+            res.status(200).json(result);
+        }).catch((err) => {
+            res.status(500).json({ message: 'Internal server error' });
+            console.log(err);
+        });
+})
 router.get('/getbyid/:id', (req, res) => {
     Model.findById(req.params.id)
         .then((result) => {
@@ -26,6 +30,6 @@ router.get('/getbyid/:id', (req, res) => {
             res.status(500).json({ message: 'Internal Server Error' });
             console.log(err);
         });
-    })
+})
 
 module.exports = router;

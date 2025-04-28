@@ -1,7 +1,7 @@
 const express = require('express');
-const router = express.Router();
-const Scan = require('../models/scanModel');
+const Model = require('../models/scanModel');
 
+const router = express.Router();
 
 router.post('/add', (req, res) => {
     console.log(req.body);
@@ -10,13 +10,8 @@ router.post('/add', (req, res) => {
             res.status(200).json(result);
         }).catch((err) => {
             console.log(err);
-            if (err.code === 11000) {
-                res.status(400).json({ message: 'User Email already exists' });
-            }
-            else {
-                res.status(500).json({ message: 'Internal server error' });
-            }
-});
+            res.status(500).json({ message: 'Internal server error' });
+        });
 })
 
 
@@ -25,8 +20,8 @@ router.get('/getall', (req, res) => {
         .then((result) => {
             res.status(200).json(result);
         }).catch((err) => {
-            res.status(500).json({ message: 'Internal server error' });
             console.log(err);
+            res.status(500).json({ message: 'Internal server error' });
         });
 });
 
@@ -36,8 +31,8 @@ router.get('/getbyid/:id', (req, res) => {
         .then((result) => {
             res.status(200).json(result);
         }).catch((err) => {
-            res.status(500).json({ message: 'Internal Server Error' });
             console.log(err);
+            res.status(500).json({ message: 'Internal Server Error' });
         });
 });
 
@@ -45,24 +40,21 @@ router.put('/update/:id', (req, res) => {
     Model.findByIdAndUpdate(req.params.id, req.body)
         .then((result) => {
             res.status(200).json(result);
-
         }).catch((err) => {
             res.status(500).json({ message: 'Internal server error' });
             console.log(err);
-
         });
-    })
+});
+
 router.delete('/delete/:id', (req, res) => {
     Model.findByIdAndDelete(req.params.id)
         .then((result) => {
             res.status(200).json(result);
-
         }).catch((err) => {
             res.status(500).json({ message: 'Internal server error' });
             console.log(err);
-
         });
-    })  
+});
 
 
 module.exports = router;
