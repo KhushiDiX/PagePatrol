@@ -1,7 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
-import PrelineScript from "@/components/PrelineScript";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -23,10 +22,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <PrelineScript />
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
         <Toaster />
         <Navbar />
         {children}
