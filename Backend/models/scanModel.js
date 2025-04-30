@@ -13,11 +13,14 @@ const scanSchema = new Schema({
     },
     startedAt: Date,
     finishedAt: Date,
-    brokenLink: {
-        type: Schema.Types.ObjectId,
-        ref: 'BrokenLink'
-    },
-    orphanedPage: [String] //array of URLs
+    brokenLinks: [{
+        url: String,
+        statusCode: String,
+        foundOn: [String]
+    }],
+    orphanedPages: [String] // array of URLs
+}, {
+    timestamps: true
 });
 
 module.exports = model('Scans', scanSchema);
