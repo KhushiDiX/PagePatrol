@@ -25,7 +25,7 @@ const Login = () => {
           toast.success('Login Successfully');
           resetForm({ values: '' });
           localStorage.setItem('token', result.data.token);
-          router.push('/');
+          router.push('/user/dashboard');
         }).catch((err) => {
           console.log(err);
           toast.error('Something went wrong');
