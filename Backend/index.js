@@ -4,9 +4,10 @@ const contactRouter = require('./routers/contactRouter'); // Importing the user 
 const feedbackRouter = require('./routers/feedbackRouter'); // Importing the user router
 const scanRouter = require('./routers/scanRouter'); // Importing the user router
 const brokenRouter = require('./routers/brokenLinkRouter'); // Importing the user router
-const cors = require('cors');
-//creating new express app
 
+const cors = require('cors');
+
+//creating new express application
 const app = express();
 
 const port = 5000;

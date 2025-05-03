@@ -3,30 +3,40 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { IconClock, IconLinkCheck, IconLinkOff } from '@tabler/icons-react';
 import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { verifyToken } from '@/utils/auth';
 
 const Profile = () => {
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const [scans, setScans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('profile');
 
   useEffect(() => {
-    // Get user data from localStorage
-    const userData = JSON.parse(localStorage.getItem('user'));
-    if (userData) {
-      setUser(userData);
-      fetchUserScans(userData._id);
-    } else {
+    const authenticate = async () => {
+      const userData = await verifyToken();
+      if (userData) {
+        setUser(userData);
+        fetchUserScans(userData._id);
+      } else {
+        toast.error('Please login to view your profile');
+        router.push('/login');
+      }
       setLoading(false);
-      toast.error('Please login to view your profile');
-      // Redirect to login could be added here
-    }
-  }, []);
+    };
+    
+    authenticate();
+  }, [router]);
 
   const fetchUserScans = async (userId) => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:5000/scan/getbyuser/${userId}`);
+      // Get token for authenticated API request
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`http://localhost:5000/scan/getbyuser/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       setScans(response.data);
       setLoading(false);
     } catch (error) {

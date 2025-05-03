@@ -1,163 +1,205 @@
-import React from 'react'
+'use client';
+import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 const Navbar = () => {
+    const [isOpen, setIsOpen] = useState(false)
+    const [scrolled, setScrolled] = useState(false)
+    
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 20) {
+                setScrolled(true)
+            } else {
+                setScrolled(false)
+            }
+        }
+        
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
+    
     return (
-        <div className="bg-gray-900">
-            <div className="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
-                <div className="relative flex items-center justify-between">
-                    <a
-                        href="/"
-                        aria-label="Company"
-                        title="Company"
-                        className="inline-flex items-center"
-                    >
-                        <svg
-                            className="w-8 text-teal-400"
-                            viewBox="0 0 24 24"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeMiterlimit={10}
-                            stroke="currentColor"
-                            fill="none"
+        <motion.nav 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className={`fixed w-full top-0 z-50 transition-all duration-300 ${
+                scrolled ? 'bg-white/95 dark:bg-gray-900/95 shadow-lg backdrop-blur-sm' : 'bg-transparent'
+            }`}
+        >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex items-center justify-between h-16">
+                    <div className="flex items-center">
+                        <motion.div 
+                            className="flex-shrink-0"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                         >
-                            <rect x={3} y={1} width={7} height={12} />
-                            <rect x={3} y={17} width={7} height={6} />
-                            <rect x={14} y={1} width={7} height={6} />
-                            <rect x={14} y={11} width={7} height={12} />
-                        </svg>
-                        <span className="ml-2 text-xl font-bold tracking-wide text-gray-100 uppercase">
-                            PagePatrol
-                        </span>
-                    </a>
-                    <ul className="items-center hidden space-x-8 lg:flex">
-                        <li>
-                            <a
-                                href="/"
-                                aria-label="Our product"
-                                title="Our product"
-                                className="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
+                            <Link href="/" className="flex items-center">
+                                <svg
+                                    className="w-8 h-8 text-indigo-500"
+                                    viewBox="0 0 24 24"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    strokeLinecap="round"
+                                    strokeMiterlimit={10}
+                                    stroke="currentColor"
+                                    fill="none"
+                                >
+                                    <rect x={3} y={1} width={7} height={12} />
+                                    <rect x={3} y={17} width={7} height={6} />
+                                    <rect x={14} y={1} width={7} height={6} />
+                                    <rect x={14} y={11} width={7} height={12} />
+                                </svg>
+                                <span className="ml-2 text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                                    PagePatrol
+                                </span>
+                            </Link>
+                        </motion.div>
+                        
+                        <div className="hidden md:block">
+                            <div className="ml-10 flex items-baseline space-x-4">
+                                {['Home', 'Features', 'About Us', 'Contact Us'].map((item, index) => (
+                                    <motion.div
+                                        key={item}
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        <Link 
+                                            href={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`}
+                                            className={`relative px-3 py-2 text-sm font-medium ${
+                                                scrolled 
+                                                    ? 'text-gray-700 hover:text-indigo-600 dark:text-gray-200 dark:hover:text-indigo-400' 
+                                                    : 'text-gray-100 hover:text-white'
+                                            } transition-colors duration-200`}
+                                        >
+                                            {item}
+                                            <motion.span 
+                                                className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-500"
+                                                initial={{ width: '0%' }}
+                                                whileHover={{ width: '100%' }}
+                                                transition={{ duration: 0.3 }}
+                                            />
+                                        </Link>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="hidden md:block">
+                        <div className="ml-4 flex items-center md:ml-6 space-x-3">
+                            <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
                             >
-                                Home
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="/"
-                                aria-label="Our product"
-                                title="Our product"
-                                className="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
+                                <Link 
+                                    href="/login"
+                                    className={`px-4 py-2 text-sm font-medium rounded-md ${
+                                        scrolled 
+                                            ? 'text-indigo-600 border border-indigo-600 hover:bg-indigo-50'
+                                            : 'text-white border border-white/30 hover:bg-white/10'
+                                    } transition-colors duration-200`}
+                                >
+                                    Login
+                                </Link>
+                            </motion.div>
+                            
+                            <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
                             >
-                                Features
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="/about"
-                                aria-label="About Us"
-                                title="About Us"
-                                className="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
-                            >
-                                About Us
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="/contact"
-                                aria-label="Contact Us"
-                                title="Contact Us"
-                                className="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
-                            >
-                                Contact Us
-                            </a>
-                        </li>
-                    </ul>
-                    <ul className="items-center hidden space-x-8 lg:flex">
-                        <li>
-                            <a
-                                href="/signup"
-                                className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-violet-700 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
-                                aria-label="Sign up"
-                                title="Sign up"
-                            >
-                                Sign up
-                            </a>
-                        </li>
-                    </ul>
-                    {/* Mobile menu */}
-                    <div className="lg:hidden">
-                        <button
-                            aria-label="Open Menu"
-                            title="Open Menu"
-                            className="p-2 -mr-1 transition duration-200 rounded focus:outline-none focus:shadow-outline"
+                                <Link 
+                                    href="/signup"
+                                    className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-md hover:shadow-lg transition-all duration-200 hover:from-indigo-500 hover:to-purple-500"
+                                >
+                                    Sign up
+                                </Link>
+                            </motion.div>
+                        </div>
+                    </div>
+                    
+                    <div className="flex md:hidden">
+                        <motion.button
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => setIsOpen(!isOpen)}
+                            className={`inline-flex items-center justify-center p-2 rounded-md ${
+                                scrolled 
+                                    ? 'text-gray-700 hover:bg-gray-100'
+                                    : 'text-white hover:bg-white/10'
+                            }`}
                         >
-                            <svg className="w-5 text-gray-600" viewBox="0 0 24 24">
-                                <path
-                                    fill="currentColor"
-                                    d="M23,13H1c-0.6,0-1-0.4-1-1s0.4-1,1-1h22c0.6,0,1,0.4,1,1S23.6,13,23,13z"
-                                />
-                                <path
-                                    fill="currentColor"
-                                    d="M23,6H1C0.4,6,0,5.6,0,5s0.4-1,1-1h22c0.6,0,1,0.4,1,1S23.6,6,23,6z"
-                                />
-                                <path
-                                    fill="currentColor"
-                                    d="M23,20H1c-0.6,0-1-0.4-1-1s0.4-1,1-1h22c0.6,0,1,0.4,1,1S23.6,20,23,20z"
-                                />
-                            </svg>
-                        </button>
-                        {/* Mobile menu dropdown 
-        <div class="absolute top-0 left-0 w-full">
-          <div class="p-5 bg-white border rounded shadow-sm">
-            <div class="flex items-center justify-between mb-4">
-              <div>
-                <a href="/" aria-label="Company" title="Company" class="inline-flex items-center">
-                  <svg class="w-8 text-deep-purple-accent-400" viewBox="0 0 24 24" stroke-linejoin="round" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" stroke="currentColor" fill="none">
-                    <rect x="3" y="1" width="7" height="12"></rect>
-                    <rect x="3" y="17" width="7" height="6"></rect>
-                    <rect x="14" y="1" width="7" height="6"></rect>
-                    <rect x="14" y="11" width="7" height="12"></rect>
-                  </svg>
-                  <span class="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">Company</span>
-                </a>
-              </div>
-              <div>
-                <button aria-label="Close Menu" title="Close Menu" class="p-2 -mt-2 -mr-2 transition duration-200 rounded hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
-                  <svg class="w-5 text-gray-600" viewBox="0 0 24 24">
-                    <path
-                      fill="currentColor"
-                      d="M19.7,4.3c-0.4-0.4-1-0.4-1.4,0L12,10.6L5.7,4.3c-0.4-0.4-1-0.4-1.4,0s-0.4,1,0,1.4l6.3,6.3l-6.3,6.3 c-0.4,0.4-0.4,1,0,1.4C4.5,19.9,4.7,20,5,20s0.5-0.1,0.7-0.3l6.3-6.3l6.3,6.3c0.2,0.2,0.5,0.3,0.7,0.3s0.5-0.1,0.7-0.3 c0.4-0.4,0.4-1,0-1.4L13.4,12l6.3-6.3C20.1,5.3,20.1,4.7,19.7,4.3z"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <nav>
-              <ul class="space-y-4">
-                <li><a href="/" aria-label="Our product" title="Our product" class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400">Product</a></li>
-                <li><a href="/" aria-label="Our product" title="Our product" class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400">Features</a></li>
-                <li><a href="/" aria-label="Product pricing" title="Product pricing" class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400">Pricing</a></li>
-                <li><a href="/" aria-label="About us" title="About us" class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400">About us</a></li>
-                <li>
-                  <a
-                    href="/"
-                    class="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
-                    aria-label="Sign up"
-                    title="Sign up"
-                  >
-                    Sign up
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-        */}
+                            <span className="sr-only">Open main menu</span>
+                            {!isOpen ? (
+                                <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                            ) : (
+                                <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            )}
+                        </motion.button>
                     </div>
                 </div>
             </div>
-        </div>
+
+            {/* Mobile menu */}
+            <motion.div 
+                className={`${isOpen ? 'block' : 'hidden'} md:hidden`}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: isOpen ? 1 : 0, height: isOpen ? 'auto' : 0 }}
+                transition={{ duration: 0.3 }}
+            >
+                <div className={`px-2 pt-2 pb-3 space-y-1 sm:px-3 ${scrolled ? 'bg-white dark:bg-gray-900' : 'bg-gray-900/80 backdrop-blur-sm'}`}>
+                    {['Home', 'Features', 'About Us', 'Contact Us'].map((item, index) => (
+                        <motion.div
+                            key={item}
+                            whileTap={{ scale: 0.95 }}
+                            className="block"
+                        >
+                            <Link 
+                                href={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`}
+                                className={`block px-3 py-2 rounded-md text-base font-medium ${
+                                    scrolled 
+                                        ? 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
+                                        : 'text-gray-100 hover:text-white hover:bg-white/10'
+                                }`}
+                                onClick={() => setIsOpen(false)}
+                            >
+                                {item}
+                            </Link>
+                        </motion.div>
+                    ))}
+                    
+                    <div className="pt-4 pb-3 border-t border-gray-700">
+                        <div className="space-y-2">
+                            <Link
+                                href="/login"
+                                onClick={() => setIsOpen(false)}
+                                className={`block w-full px-3 py-2 rounded-md text-center text-base font-medium ${
+                                    scrolled 
+                                        ? 'text-indigo-600 border border-indigo-600 hover:bg-indigo-50'
+                                        : 'text-white border border-white/30 hover:bg-white/10'
+                                }`}
+                            >
+                                Login
+                            </Link>
+                            <Link
+                                href="/signup"
+                                onClick={() => setIsOpen(false)}
+                                className="block w-full px-3 py-2 rounded-md text-center text-base font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500"
+                            >
+                                Sign up
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </motion.div>
+        </motion.nav>
     )
 }
 
-export default Navbar;
+export default Navbar

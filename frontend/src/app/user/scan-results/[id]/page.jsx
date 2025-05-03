@@ -4,6 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { IconArrowLeft, IconDownload } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
+import { verifyToken } from '@/utils/auth';
 
 export default function ScanResults({ params }) {
     const { id } = params;
@@ -13,21 +14,43 @@ export default function ScanResults({ params }) {
     const [activeTab, setActiveTab] = useState('broken');
 
     useEffect(() => {
-        const fetchScanDetails = async () => {
-            try {
-                setLoading(true);
-                const response = await axios.get(`http://localhost:5000/scan/getbyid/${id}`);
-                setScan(response.data);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching scan details:', error);
-                toast.error('Failed to fetch scan details');
-                setLoading(false);
+        const authenticate = async () => {
+            const userData = await verifyToken();
+            if (userData) {
+                fetchScanDetails(userData._id);
+            } else {
+                toast.error('Please login to view scan results');
+                router.push('/login');
             }
         };
 
-        fetchScanDetails();
-    }, [id]);
+        authenticate();
+    }, [id, router]);
+
+    const fetchScanDetails = async (userId) => {
+        try {
+            setLoading(true);
+            // Get token for authenticated API request
+            const token = localStorage.getItem('token');
+            const response = await axios.get(`http://localhost:5000/scan/getbyid/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            
+            // Check if the scan belongs to the current user
+            if (response.data && response.data.user === userId) {
+                setScan(response.data);
+            } else {
+                toast.error("You don't have permission to view this scan");
+                router.push('/user/profile');
+            }
+            
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching scan details:', error);
+            toast.error('Failed to fetch scan details');
+            setLoading(false);
+        }
+    };
 
     const formatDate = (dateString) => {
         if (!dateString) return 'N/A';
@@ -218,4 +241,4 @@ export default function ScanResults({ params }) {
             </div>
         </div>
     );
-} 
+}
