@@ -13,16 +13,24 @@ export default function Dashboard() {
     const [recentScans, setRecentScans] = useState([]);
 
     useEffect(() => {
-        // Check if user is logged in
-        const userData = JSON.parse(localStorage.getItem('user'));
-        if (!userData) {
+        // Check if user is logged in by verifying the token
+        const token = localStorage.getItem('token');
+        if (!token) {
             toast.error('Please login to access the dashboard');
             router.push('/login');
             return;
         }
 
-        // Fetch recent scans
-        fetchRecentScans(userData._id);
+        // Verify token with backend
+        axios.get('http://localhost:5000/user/verify', { headers: { Authorization: `Bearer ${token}` } })
+            .then(response => {
+                // Token is valid, fetch recent scans
+                fetchRecentScans(response.data._id);
+            })
+            .catch(error => {
+                toast.error('Invalid token, please login again');
+                router.push('/login');
+            });
     }, [router]);
 
     const fetchRecentScans = async (userId) => {
@@ -65,7 +73,7 @@ export default function Dashboard() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 min-h-1/2">
             <h1 className="text-2xl font-bold mb-6">Website Scanner</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

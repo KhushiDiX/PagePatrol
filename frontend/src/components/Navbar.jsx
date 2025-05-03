@@ -30,7 +30,7 @@ const Navbar = () => {
                             PagePatrol
                         </span>
                     </a>
-                    <ul className="flex items-center hidden space-x-8 lg:flex">
+                    <ul className="items-center hidden space-x-8 lg:flex">
                         <li>
                             <a
                                 href="/"
@@ -72,7 +72,7 @@ const Navbar = () => {
                             </a>
                         </li>
                     </ul>
-                    <ul className="flex items-center hidden space-x-8 lg:flex">
+                    <ul className="items-center hidden space-x-8 lg:flex">
                         <li>
                             <a
                                 href="/signup"
