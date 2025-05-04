@@ -3,12 +3,13 @@ import React, { useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
+import Navbar from '@/components/Navbar';
 
 // Animation variants
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: { duration: 0.6 }
   }
@@ -27,7 +28,7 @@ const staggerContainer = {
 const ScaleInView = ({ children, delay = 0 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
-  
+
   return (
     <motion.div
       ref={ref}
@@ -43,7 +44,7 @@ const ScaleInView = ({ children, delay = 0 }) => {
 const SlideFromRight = ({ children, delay = 0 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
-  
+
   return (
     <motion.div
       ref={ref}
@@ -59,7 +60,7 @@ const SlideFromRight = ({ children, delay = 0 }) => {
 const SlideFromLeft = ({ children, delay = 0 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
-  
+
   return (
     <motion.div
       ref={ref}
@@ -75,7 +76,7 @@ const SlideFromLeft = ({ children, delay = 0 }) => {
 const StatCounter = ({ value, title, description }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
-  
+
   return (
     <motion.div
       ref={ref}
@@ -96,7 +97,7 @@ const StatCounter = ({ value, title, description }) => {
 const FeatureCard = ({ title, description, icon, delay = 0 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
-  
+
   return (
     <motion.div
       ref={ref}
@@ -117,6 +118,7 @@ const FeatureCard = ({ title, description, icon, delay = 0 }) => {
 const Home = () => {
   return (
     <>
+      <Navbar />
       {/* Hero Section */}
       <section className="relative pt-20 pb-16 md:pt-32 md:pb-24 overflow-hidden">
         {/* Background elements */}
@@ -124,35 +126,35 @@ const Home = () => {
           <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-b from-indigo-200/20 to-transparent rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/4"></div>
           <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-t from-purple-200/20 to-transparent rounded-full blur-3xl transform -translate-x-1/3 translate-y-1/4"></div>
         </div>
-        
+
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-12">
-            <motion.div 
+            <motion.div
               className="flex-1"
               variants={staggerContainer}
               initial="hidden"
               animate="visible"
             >
-              <motion.span 
+              <motion.span
                 variants={fadeIn}
                 className="inline-block px-3 py-1 text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300 rounded-full mb-4"
               >
                 Website Health Monitoring
               </motion.span>
-              <motion.h1 
+              <motion.h1
                 variants={fadeIn}
                 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4 bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent"
               >
                 Keep Your Website <br />
                 <span className="text-indigo-600 dark:text-indigo-400">Error-Free</span> & <span className="text-violet-600 dark:text-violet-400">Healthy</span>
               </motion.h1>
-              <motion.p 
+              <motion.p
                 variants={fadeIn}
                 className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6 max-w-lg"
               >
                 Automatically detect and fix broken links and orphaned pages to improve user experience and boost your SEO performance.
               </motion.p>
-              <motion.div 
+              <motion.div
                 variants={fadeIn}
                 className="flex flex-col sm:flex-row gap-4"
               >
@@ -175,21 +177,21 @@ const Home = () => {
                   </motion.span>
                 </Link>
               </motion.div>
-              
+
               <motion.div
                 variants={fadeIn}
                 className="flex items-center mt-8 space-x-4"
               >
                 <div className="flex -space-x-2">
                   {[1, 2, 3, 4].map(i => (
-                    <div key={i} className={`w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gray-${i*100} dark:bg-gray-${900-(i*100)}`}></div>
+                    <div key={i} className={`w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gray-${i * 100} dark:bg-gray-${900 - (i * 100)}`}></div>
                   ))}
                 </div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">Join <span className="font-semibold text-indigo-600 dark:text-indigo-400">2,000+</span> website owners</p>
               </motion.div>
             </motion.div>
-            
-            <motion.div 
+
+            <motion.div
               className="flex-1 hidden md:block"
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -207,7 +209,7 @@ const Home = () => {
                     priority
                   />
                 </div>
-                <motion.div 
+                <motion.div
                   className="absolute -right-12 -bottom-10 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -390,24 +392,24 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <StatCounter 
-              value="10-20%" 
-              title="Orphaned Pages" 
+            <StatCounter
+              value="10-20%"
+              title="Orphaned Pages"
               description="On larger websites, 10-20% of pages are typically orphaned due to inadequate site structure."
             />
-            <StatCounter 
-              value="30-40%" 
-              title="Weak Internal Linking" 
+            <StatCounter
+              value="30-40%"
+              title="Weak Internal Linking"
               description="Of orphaned pages can be found in sites with weak internal linking strategies."
             />
-            <StatCounter 
-              value="60%" 
-              title="User Retention Impact" 
+            <StatCounter
+              value="60%"
+              title="User Retention Impact"
               description="Of users are less likely to return to a site if they encounter broken links."
             />
-            <StatCounter 
-              value="10-50+" 
-              title="Typical Broken Links" 
+            <StatCounter
+              value="10-50+"
+              title="Typical Broken Links"
               description="For a medium-sized website (500-1000 pages), broken links can range from 10-50+."
             />
           </div>
@@ -423,7 +425,7 @@ const Home = () => {
                 {/* Background decoration */}
                 <div className="absolute top-0 right-0 -mt-20 -mr-20 w-64 h-64 rounded-full bg-white/10 blur-3xl"></div>
                 <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-64 h-64 rounded-full bg-white/5 blur-3xl"></div>
-                
+
                 <div className="relative z-10">
                   <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                     <div>
@@ -434,10 +436,10 @@ const Home = () => {
                         Get started with PagePatrol today and ensure your website is always performing at its best. Full access to all tools, cancel anytime.
                       </p>
                     </div>
-                    
+
                     <div className="w-full md:w-auto flex flex-col sm:flex-row gap-3">
                       <Link href="/signup">
-                        <motion.span 
+                        <motion.span
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.98 }}
                           className="inline-block px-6 py-3 bg-white text-indigo-600 font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 text-center w-full sm:w-auto"
@@ -446,7 +448,7 @@ const Home = () => {
                         </motion.span>
                       </Link>
                       <Link href="/contact">
-                        <motion.span 
+                        <motion.span
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.98 }}
                           className="inline-block px-6 py-3 bg-transparent text-white border border-white/30 font-medium rounded-lg hover:bg-white/10 transition-all duration-200 text-center w-full sm:w-auto"
@@ -470,14 +472,14 @@ const Home = () => {
             <SlideFromLeft className="flex-1">
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-violet-500 rounded-2xl transform -rotate-3 scale-105 opacity-10 blur-xl"></div>
-                <img 
-                  src="/About-Us.webp" 
-                  alt="About PagePatrol" 
+                <img
+                  src="/About-Us.webp"
+                  alt="About PagePatrol"
                   className="w-full h-auto object-cover rounded-2xl shadow-lg relative z-10"
                 />
               </div>
             </SlideFromLeft>
-            
+
             <SlideFromRight className="flex-1">
               <span className="inline-block px-3 py-1 text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300 rounded-full mb-4">
                 About Us

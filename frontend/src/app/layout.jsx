@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={inter.variable}>
       <body className="antialiased min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
         <Toaster position="top-right" />
-        <Navbar />
+        {/* <Navbar /> */}
         <main className="pt-16">{children}</main>
         <Footer />
       </body>

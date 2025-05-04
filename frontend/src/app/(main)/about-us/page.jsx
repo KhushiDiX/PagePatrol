@@ -70,7 +70,7 @@ const About = () => {
             </motion.span>
             <motion.h1 
               variants={fadeIn}
-              className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-200 bg-clip-text text-transparent"
+              className="text-4xl md:text-5xl font-bold mb-6 py-5 bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-200 bg-clip-text text-transparent"
             >
               About PagePatrol
             </motion.h1>
