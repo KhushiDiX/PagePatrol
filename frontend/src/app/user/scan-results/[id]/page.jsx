@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { IconArrowLeft, IconDownload } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { verifyToken } from '@/utils/auth';
 
-export default function ScanResults({ params }) {
-    const { id } = params;
+export default function ScanResults() {
+    const { id } = useParams();
     const router = useRouter();
     const [scan, setScan] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -35,7 +35,7 @@ export default function ScanResults({ params }) {
             const response = await axios.get(`http://localhost:5000/scan/getbyid/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            
+
             // Check if the scan belongs to the current user
             if (response.data && response.data.user === userId) {
                 setScan(response.data);
@@ -43,7 +43,7 @@ export default function ScanResults({ params }) {
                 toast.error("You don't have permission to view this scan");
                 router.push('/user/profile');
             }
-            
+
             setLoading(false);
         } catch (error) {
             console.error('Error fetching scan details:', error);
