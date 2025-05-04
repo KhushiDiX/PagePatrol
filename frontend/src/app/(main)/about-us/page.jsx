@@ -19,23 +19,17 @@ const About = () => {
   // Team data with profiles
   const team = [
     {
-      name: "Rahul Sharma",
+      name: "Khushi Dixit",
       role: "Founder & CEO",
-      bio: "With over 10 years of experience in web development and SEO optimization, Rahul founded PagePatrol to solve the common problem of website maintenance.",
+      bio: "With over 10 years of experience in web development and SEO optimization, Khushi founded PagePatrol to solve the common problem of website maintenance.",
       avatar: "/khushi.webp" // Replace with actual image
     },
     {
-      name: "Priya Patel",
+      name: "Anshu Tripathi",
       role: "Lead Developer",
-      bio: "Priya oversees the technical architecture of PagePatrol, ensuring a robust, scalable solution that delivers real value to website owners.",
+      bio: "Anshu oversees the technical architecture of PagePatrol, ensuring a robust, scalable solution that delivers real value to website owners.",
       avatar: "/khushi.webp" // Replace with actual image
     },
-    {
-      name: "Vikram Singh",
-      role: "UX Designer",
-      bio: "Vikram is passionate about creating intuitive interfaces that make complex website maintenance accessible to users of all technical abilities.",
-      avatar: "/khushi.webp" // Replace with actual image
-    }
   ];
 
   return (
@@ -228,7 +222,7 @@ const About = () => {
             </motion.div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
             {team.map((member, index) => (
               <motion.div 
                 key={member.name}
