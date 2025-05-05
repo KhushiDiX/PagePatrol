@@ -3,6 +3,9 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 const ContactSchema = Yup.object().shape({
   name: Yup.string().min(2, 'Too Short..!').max(50, 'Too long!').required('Required'),
@@ -10,8 +13,26 @@ const ContactSchema = Yup.object().shape({
   message: Yup.string().min(10, 'Message is too short').required('Required'),
 });
 
+// Google Maps configuration
+const mapContainerStyle = {
+  width: '100%',
+  height: '100%'
+};
+
+// Example coordinates for a location in Uttar Pradesh, India
+// These coordinates point to Lucknow, UP - you can adjust based on your actual office location
+const center = {
+  lat: 26.8467, 
+  lng: 80.9462
+};
+
 const Contact = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // For Google Maps API key (use your actual API key in production)
+  // You would typically store this in environment variables
+  const [googleMapsApiKey] = useState(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY);
 
   const contactForm = useFormik({
     initialValues: {
@@ -20,12 +41,25 @@ const Contact = () => {
       message: '',
     },
     onSubmit: (values, { resetForm }) => {
-      console.log(values);
-      setIsSubmitted(true);
-      setTimeout(() => {
-        resetForm();
-        setIsSubmitted(false);
-      }, 3000);
+      setIsSubmitting(true);
+      
+      axios.post('http://localhost:5000/contact/add', values)
+        .then((response) => {
+          console.log('Contact form submitted:', response.data);
+          setIsSubmitted(true);
+          toast.success('Your message has been sent successfully!');
+          setTimeout(() => {
+            resetForm();
+            setIsSubmitted(false);
+          }, 3000);
+        })
+        .catch((error) => {
+          console.error('Error submitting contact form:', error);
+          toast.error('Failed to send message. Please try again.');
+        })
+        .finally(() => {
+          setIsSubmitting(false);
+        });
     },
     validationSchema: ContactSchema,
   });
@@ -304,8 +338,9 @@ const Contact = () => {
                         whileTap={{ scale: 0.98 }}
                         type="submit"
                         className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white py-3 px-6 rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-300"
+                        disabled={isSubmitting}
                       >
-                        Send Message
+                        {isSubmitting ? 'Sending...' : 'Send Message'}
                       </motion.button>
                     </form>
                   )}
@@ -346,10 +381,15 @@ const Contact = () => {
             className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden"
           >
             <div className="h-96 w-full bg-gray-300 dark:bg-gray-700">
-              {/* Replace with actual map component if needed */}
-              <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700">
-                <p className="text-gray-500 dark:text-gray-400">Map will be displayed here</p>
-              </div>
+              <LoadScript googleMapsApiKey={googleMapsApiKey}>
+                <GoogleMap
+                  mapContainerStyle={mapContainerStyle}
+                  center={center}
+                  zoom={15}
+                >
+                  <Marker position={center} />
+                </GoogleMap>
+              </LoadScript>
             </div>
           </motion.div>
         </div>

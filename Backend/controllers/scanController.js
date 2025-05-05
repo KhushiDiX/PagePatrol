@@ -6,6 +6,8 @@ const ScanModel = require('../models/scanModel');
 
 const crawlWebsite = async (req, res) => {
   const { websiteUrl, userId } = req.body;
+  // Set the maximum number of URLs to scan
+  const MAX_URLS_TO_SCAN = 50;
 
   if (!websiteUrl) {
     return res.status(400).json({ error: 'Website URL is required' });
@@ -31,6 +33,8 @@ const crawlWebsite = async (req, res) => {
     const linkSources = new Map();
 
     const crawl = async (url, source = null) => {
+      // Check if we've reached the maximum limit of URLs to scan
+      if (visitedUrls.size >= MAX_URLS_TO_SCAN) return;
       if (visitedUrls.has(url)) return;
       visitedUrls.add(url);
 
@@ -49,7 +53,10 @@ const crawlWebsite = async (req, res) => {
                 linkSources.set(absoluteUrl, []);
               }
               linkSources.get(absoluteUrl).push(url);
-              crawl(absoluteUrl, url);
+              // Only continue crawling if we haven't reached the limit
+              if (visitedUrls.size < MAX_URLS_TO_SCAN) {
+                crawl(absoluteUrl, url);
+              }
             }
           } catch (err) {
             // Ignore invalid URLs

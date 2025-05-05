@@ -427,7 +427,7 @@ const Home = () => {
                 <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-64 h-64 rounded-full bg-white/5 blur-3xl"></div>
 
                 <div className="relative z-10">
-                  <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                  <div className="flex flex-col md:flex-row items-center justify-evenly gap-6">
                     <div>
                       <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4">
                         Ready to fix your website?
@@ -444,10 +444,10 @@ const Home = () => {
                           whileTap={{ scale: 0.98 }}
                           className="inline-block px-6 py-3 bg-white text-indigo-600 font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 text-center w-full sm:w-auto"
                         >
-                          Start Free Trial
+                          Get Started Now !!
                         </motion.span>
                       </Link>
-                      <Link href="/contact">
+                      {/* <Link href="/contact">
                         <motion.span
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.98 }}
@@ -455,7 +455,7 @@ const Home = () => {
                         >
                           Contact Sales
                         </motion.span>
-                      </Link>
+                      </Link> */}
                     </div>
                   </div>
                 </div>

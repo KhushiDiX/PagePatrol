@@ -61,7 +61,7 @@ const Navbar = () => {
                         
                         <div className="hidden md:block">
                             <div className="ml-10 flex items-baseline space-x-4">
-                                {['Home', 'Features', 'About Us', 'Contact Us'].map((item, index) => (
+                                {['Home', 'About Us', 'Contact Us'].map((item, index) => (
                                     <motion.div
                                         key={item}
                                         whileHover={{ scale: 1.1 }}
@@ -154,7 +154,7 @@ const Navbar = () => {
                 transition={{ duration: 0.3 }}
             >
                 <div className={`px-2 pt-2 pb-3 space-y-1 sm:px-3 ${scrolled ? 'bg-white dark:bg-gray-900' : 'bg-gray-900/80 backdrop-blur-sm'}`}>
-                    {['Home', 'Features', 'About Us', 'Contact Us'].map((item, index) => (
+                    {['Home', 'About Us', 'Contact Us'].map((item, index) => (
                         <motion.div
                             key={item}
                             whileTap={{ scale: 0.95 }}
