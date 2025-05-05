@@ -38,9 +38,18 @@ const Login = () => {
             sessionStorage.setItem('token', result.data.token);
           }
           
+          // Store user role for easier access
+          const userRole = result.data.role;
+          localStorage.setItem('userRole', userRole);
+          
           // Slight delay for better UX
           setTimeout(() => {
-            router.push('/user/dashboard');
+            // Redirect based on user role
+            if (userRole === 'admin') {
+              router.push('/admin/manage-users');
+            } else {
+              router.push('/user/dashboard');
+            }
           }, 500);
         }).catch((err) => {
           console.log(err);

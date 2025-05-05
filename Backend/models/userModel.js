@@ -6,7 +6,8 @@ const userSchema = new Schema({
     password: { type: String, },
     role: {
         type: String,
-        enum: ['admin, user']
+        enum: ['admin', 'user'],
+        default: 'user'
     },
     scan: {
         type: Schema.Types.ObjectId,
