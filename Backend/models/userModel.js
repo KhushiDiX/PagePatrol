@@ -12,7 +12,11 @@ const userSchema = new Schema({
     scan: {
         type: Schema.Types.ObjectId,
         ref: 'Scan'
-    }
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
 });
 
 
