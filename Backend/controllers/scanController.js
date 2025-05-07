@@ -4,6 +4,7 @@ const cheerio = require('cheerio');
 const { URL } = require('url');
 const ScanModel = require('../models/scanModel');
 
+
 const crawlWebsite = async (req, res) => {
   const { websiteUrl, userId } = req.body;
   // Set the maximum number of URLs to scan

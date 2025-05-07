@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const BrokenLink = require('../models/brokenLinkModel');
+// const BrokenLink = require('../models/brokenLinkModel');
 
 
 router.post('/add', (req, res) => {
