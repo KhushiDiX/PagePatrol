@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+// import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 const ContactSchema = Yup.object().shape({
   name: Yup.string().min(2, 'Too Short..!').max(50, 'Too long!').required('Required'),
@@ -14,17 +14,17 @@ const ContactSchema = Yup.object().shape({
 });
 
 // Google Maps configuration
-const mapContainerStyle = {
-  width: '100%',
-  height: '100%'
-};
+// const mapContainerStyle = {
+//   width: '100%',
+//   height: '100%'
+// };
 
-// Example coordinates for a location in Uttar Pradesh, India
-// These coordinates point to Lucknow, UP - you can adjust based on your actual office location
-const center = {
-  lat: 26.8467, 
-  lng: 80.9462
-};
+// // Example coordinates for a location in Uttar Pradesh, India
+// // These coordinates point to Lucknow, UP - you can adjust based on your actual office location
+// const center = {
+//   lat: 26.8467, 
+//   lng: 80.9462
+// };
 
 const Contact = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -32,7 +32,7 @@ const Contact = () => {
 
   // For Google Maps API key (use your actual API key in production)
   // You would typically store this in environment variables
-  const [googleMapsApiKey] = useState(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY);
+  // const [googleMapsApiKey] = useState(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY);
 
   const contactForm = useFormik({
     initialValues: {
@@ -352,7 +352,7 @@ const Contact = () => {
       </section>
 
       {/* Map Section */}
-      <section className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900/50">
+      {/* <section className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900/50">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <motion.div
@@ -393,7 +393,7 @@ const Contact = () => {
             </div>
           </motion.div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };
