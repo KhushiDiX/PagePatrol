@@ -34,7 +34,7 @@ const Profile = () => {
       setLoading(true);
       // Get token for authenticated API request
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:5000/scan/getbyuser/${userId}`, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/scan/getbyuser/${userId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setScans(response.data);

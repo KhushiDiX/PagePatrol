@@ -38,7 +38,7 @@ export default function Dashboard() {
         try {
             // Get token for authenticated API request
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:5000/scan/getbyuser/${userId}`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/scan/getbyuser/${userId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             
@@ -65,7 +65,7 @@ export default function Dashboard() {
             setLoading(true);
             setScanResults(null);
 
-            const response = await axios.post('http://localhost:5000/scan/crawl', {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/scan/crawl`, {
                 websiteUrl: url,
                 userId: userId
             });

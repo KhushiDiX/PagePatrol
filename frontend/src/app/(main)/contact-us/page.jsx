@@ -43,7 +43,7 @@ const Contact = () => {
     onSubmit: (values, { resetForm }) => {
       setIsSubmitting(true);
       
-      axios.post('http://localhost:5000/contact/add', values)
+      axios.post(`${process.env.NEXT_PUBLIC_API_URL}/contact/add`, values)
         .then((response) => {
           console.log('Contact form submitted:', response.data);
           setIsSubmitted(true);
