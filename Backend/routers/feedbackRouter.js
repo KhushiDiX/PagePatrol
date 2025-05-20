@@ -1,5 +1,5 @@
 const express = require('express');
-const Model = require('../models/feedbackmodel');
+const Model = require('../models/feedbackModel');
 
 const router = express.Router();
 

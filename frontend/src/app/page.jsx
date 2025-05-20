@@ -178,7 +178,7 @@ const Home = () => {
                 </Link>
               </motion.div>
 
-              <motion.div
+              {/* <motion.div
                 variants={fadeIn}
                 className="flex items-center mt-8 space-x-4"
               >
@@ -188,7 +188,7 @@ const Home = () => {
                   ))}
                 </div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">Join <span className="font-semibold text-indigo-600 dark:text-indigo-400">2,000+</span> website owners</p>
-              </motion.div>
+              </motion.div> */}
             </motion.div>
 
             <motion.div
