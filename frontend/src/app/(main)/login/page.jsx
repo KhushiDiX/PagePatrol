@@ -26,6 +26,8 @@ const Login = () => {
     },
     onSubmit: (values, { resetForm }) => {
       setIsLoading(true);
+      console.log(`${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`);
+      
       axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`, values)
         .then((result) => {
           toast.success('Login Successful');
