@@ -21,7 +21,7 @@ const UpdateUser = () => {
                 return;
             }
             
-            const res = await axios.get(`http://localhost:5000/user/getbyid/${id}`, {
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/getbyid/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setUserData(res.data);
@@ -66,7 +66,7 @@ const UpdateUser = () => {
                 return;
             }
             
-            const res = await axios.put(`http://localhost:5000/user/update/${id}`, values, {
+            const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/user/update/${id}`, values, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             

@@ -25,7 +25,7 @@ export default function ScanForm({ onSubmit }) {
         }
 
         try {
-            const response = await axios.get('http://localhost:5000/user/verify', {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/verify`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setUserId(response.data._id);

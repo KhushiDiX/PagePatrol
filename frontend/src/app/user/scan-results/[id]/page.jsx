@@ -32,7 +32,7 @@ export default function ScanResults() {
             setLoading(true);
             // Get token for authenticated API request
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:5000/scan/getbyid/${id}`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/scan/getbyid/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 

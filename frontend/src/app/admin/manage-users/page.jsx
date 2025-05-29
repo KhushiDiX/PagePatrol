@@ -40,7 +40,7 @@ const ManageUsers = () => {
         return;
       }
       
-      const res = await axios.get('http://localhost:5000/user/getall', {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/getall`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log(res);
@@ -83,7 +83,7 @@ const ManageUsers = () => {
   const deleteUser = async (userId) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.delete(`http://localhost:5000/user/delete/${userId}`, {
+      const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/user/delete/${userId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
