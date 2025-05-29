@@ -15,6 +15,7 @@ const port = 5000;
 //middleware
 app.use(cors({
    origin: '*',
+   
 }));
 
 app.use(express.json());

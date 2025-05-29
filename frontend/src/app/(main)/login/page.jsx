@@ -26,9 +26,16 @@ const Login = () => {
     },
     onSubmit: (values, { resetForm }) => {
       setIsLoading(true);
-      console.log(`${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`);
+      console.log('Attempting login with:', { email: values.email });
       
-      axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`, values)
+      axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`, 
+        values,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
         .then((result) => {
           toast.success('Login Successful');
           
@@ -54,8 +61,8 @@ const Login = () => {
             }
           }, 500);
         }).catch((err) => {
-          console.log(err);
-          toast.error(err.response?.data?.message || 'Something went wrong');
+          console.error('Login error:', err.response?.data || err.message);
+          toast.error(err.response?.data?.message || 'Login failed. Please check your credentials.');
         }).finally(() => {
           setIsLoading(false);
         });

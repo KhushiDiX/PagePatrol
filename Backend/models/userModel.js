@@ -1,9 +1,18 @@
 const { Schema, model } = require('../connection');
 
 const userSchema = new Schema({
-    name: String,
-    email: { type: String, },
-    password: { type: String, },
+    name: { type: String, required: true },
+    email: { 
+        type: String, 
+        required: true,
+        unique: true,
+        trim: true,
+        lowercase: true
+    },
+    password: { 
+        type: String, 
+        required: true 
+    },
     role: {
         type: String,
         enum: ['admin', 'user'],
@@ -18,6 +27,5 @@ const userSchema = new Schema({
         default: Date.now
     },
 });
-
 
 module.exports = model('user', userSchema);
